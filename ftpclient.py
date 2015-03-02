@@ -14,9 +14,11 @@ url = input('Enter FTP url: ') #'ftp.qualicotrading.com'
 def connect(url):
 	try:
 		fftp = FTP(url)		#connect to the host, default port
-	except ftplib.all_errors:
+	except ftplib.all_errors as err:
 		print('Could not connect to {}'.format(url))
-		#print(str(e))
+		print(err)
+		quit()
+		
 	else:
 		print('Connected to {}'.format(url))
 		print('Welcome message is:')
@@ -24,9 +26,10 @@ def connect(url):
 		print(welcome)
 	fftp.login(user, passw) # enters login info
 	fftp.dir				# view current directory listing
-	menu()
 	return fftp
 
+ftp = connect(url)
+	
 def disconnect():
 	really = input('Really end session? ').lower().strip()
 	if really == 'y':
@@ -91,4 +94,4 @@ def menu():
 		print("")
 		menu()
 
-ftp = connect(url)
+menu()
