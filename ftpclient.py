@@ -1,4 +1,6 @@
 from ftplib import FTP
+import ftplib
+
 # Add better error handling especially for getfile(trying to get it to work) **REVIEW TREEHOUSE LESSON**
 # Add delete remote file (rm)
 # Add move file (mv)
@@ -6,13 +8,24 @@ from ftplib import FTP
 
 user = 'qualico@qualicotrading.com'
 passw = '987!2Hpu8$9'
-url = 'ftp.qualicotrading.com'
-ftp = FTP(url)		#connect to the host, default port
+url = input('Enter FTP url: ') #'ftp.qualicotrading.com'
 
-def connect():
-	ftp.login(user, passw) # enters login info
-	ftp.dir				# view current directory listing
+
+def connect(url):
+	try:
+		fftp = FTP(url)		#connect to the host, default port
+	except ftplib.all_errors:
+		print('Could not connect to {}'.format(url))
+		#print(str(e))
+	else:
+		print('Connected to {}'.format(url))
+		print('Welcome message is:')
+		welcome = fftp.getwelcome()
+		print(welcome)
+	fftp.login(user, passw) # enters login info
+	fftp.dir				# view current directory listing
 	menu()
+	return fftp
 
 def disconnect():
 	really = input('Really end session? ').lower().strip()
@@ -27,6 +40,9 @@ def getfile():
 	ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
 	localfile.close()
 	menu()
+	
+def getall():
+	pass
 	
 def putfile():
 	filename = input('Name of file: ')
@@ -71,6 +87,8 @@ def menu():
 	elif command == 'put':
 		putfile()
 	else:
+		print("***Unknown command***")
+		print("")
 		menu()
 
-connect()
+ftp = connect(url)
