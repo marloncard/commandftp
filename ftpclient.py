@@ -1,9 +1,9 @@
 from ftplib import FTP
 import ftplib
 
-# Add better error handling especially for getfile(trying to get it to work) **REVIEW TREEHOUSE LESSON**
-# Add delete remote file (rm)
 # Add move file (mv)
+# Add view local files
+
 # Add ability to change file permissions?
 
 user = 'qualico@qualicotrading.com'
@@ -15,8 +15,8 @@ def connect(url):
 	try:
 		fftp = FTP(url)		#connect to the host, default port
 	except ftplib.all_errors as err:
-		print('Could not connect to {}'.format(url))
-		print(err)
+		print('Could not connect to {}'.format(url)) # message if unable to connect
+		print(err) # print actual error message
 		quit()
 		
 	else:
@@ -38,7 +38,7 @@ def disconnect():
 		menu()
 		
 def getfile():
-	filename = input('Name of file: ')
+	filename = input('Filename: ')
 	localfile = open(filename, 'wb')
 	ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
 	localfile.close()
@@ -48,7 +48,7 @@ def getall():
 	pass
 	
 def putfile():
-	filename = input('Name of file: ')
+	filename = input('Filename: ')
 	ftp.storbinary('STOR ' + filename, open(filename, 'rb'))
 	menu()
 	
@@ -66,6 +66,10 @@ def cwd():
 	ftp.cwd(input('path: ')) # Change current directory.
 	menu()
 	
+def remove():
+	ftp.delete(input('Filename: ')) # Delete a file.
+	menu()
+	
 def menu():
 	print('')
 	print('*' * 10)
@@ -75,6 +79,7 @@ def menu():
 	print('[cd] to change dir')
 	print('[get] to download file')
 	print('[put] to send file')
+	print('[rm] to delete')
 	
 	command = input('What is your command: ').lower().strip()
 	if command == 'q':
@@ -89,6 +94,8 @@ def menu():
 		getfile()
 	elif command == 'put':
 		putfile()
+	elif command == 'rm':
+		remove()
 	else:
 		print("***Unknown command***")
 		print("")
