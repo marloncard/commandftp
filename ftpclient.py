@@ -3,7 +3,6 @@ import ftplib
 
 # Add move file (mv)
 # Add view local files
-
 # Add ability to change file permissions?
 
 user = 'qualico@qualicotrading.com'
@@ -45,8 +44,13 @@ def getfile():
 	menu()
 	
 def getall():
-	pass
-	
+	for file in ftp.retrlines('LIST'):
+		localfile = open(file, 'wb')
+		ftp.retrbinary('RETR ' + file, localfile.write, 1024)
+		localfile.close()
+		print(file + ' download successful!')
+	menu()
+		
 def putfile():
 	filename = input('Filename: ')
 	ftp.storbinary('STOR ' + filename, open(filename, 'rb'))
@@ -77,7 +81,7 @@ def menu():
 	print('[ls] to list dir contents')
 	print('[pwd] to show working dir')
 	print('[cd] to change dir')
-	print('[get] to download file')
+	print('[get] to download file, [getall] to download directory')
 	print('[put] to send file')
 	print('[rm] to delete')
 	
@@ -92,6 +96,8 @@ def menu():
 		cwd()
 	elif command == 'get':
 		getfile()
+	elif command == 'getall':
+		getall()
 	elif command == 'put':
 		putfile()
 	elif command == 'rm':
