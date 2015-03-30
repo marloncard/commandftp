@@ -44,11 +44,20 @@ def getfile():
 	menu()
 	
 def getall():
-	for file in ftp.retrlines('LIST'):
-		localfile = open(file, 'wb')
-		ftp.retrbinary('RETR ' + file, localfile.write, 1024)
+	file_list = []
+	ftp.retrlines('NLST', file_list.append) # append list of files in directory using callback
+	file_list.remove('.') # remove current directory '.'
+	file_list.remove('..') # remove previous directory '..'
+	print('')
+	print('*' * 10)
+	print('<Retrieving ' + str(len(file_list)) + ' files>')
+	print('')
+	print('*' * 10)
+	for filename in file_list:
+		localfile = open(filename, 'wb')
+		ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
 		localfile.close()
-		print(file + ' download successful!')
+		print('<' + filename + '> download successful!')	
 	menu()
 		
 def putfile():
