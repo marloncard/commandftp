@@ -1,7 +1,8 @@
+import credentials
 from ftplib import FTP
 import ftplib
 import os
-# Test without "import ftplib"
+## TODO:
 # Move login_info to credentials file and import
 # Add confirmations for all actions
 # Add error handling
@@ -10,9 +11,8 @@ import os
 # Add view local files (Use "swap" to switch between "REMOTE" & "LOCAL")
 # Add ability to change file permissions?
 
-user = 'qualico@qualicotrading.com'
-passw = '987!2Hpu8$9'
-url = input('Enter FTP url: ') #'ftp.qualicotrading.com'
+
+url = input('Enter FTP url: ')
 
 
 def connect(url):
@@ -22,13 +22,12 @@ def connect(url):
 		print('Could not connect to {}'.format(url)) # message if unable to connect
 		print(err) # print actual error message
 		quit()
-		
 	else:
 		print('Connected to {}'.format(url))
 		print('Welcome message is:')
 		welcome = fftp.getwelcome()
 		print(welcome)
-	fftp.login(user, passw) # enters login info
+	fftp.login(credentials.user, credentials.passw) # enters login info
 	fftp.dir				# view current directory listing
 	return fftp
 
@@ -36,7 +35,7 @@ ftp = connect(url)
 	
 def disconnect():
 	really = input('Really end session? ').lower().strip()
-	if really == 'y':
+	if really == 'y' or really == 'yes':
 		ftp.quit()
 	else:
 		menu()
