@@ -1,8 +1,13 @@
 from ftplib import FTP
 import ftplib
-
+import os
+# Test without "import ftplib"
+# Move login_info to credentials file and import
+# Add confirmations for all actions
+# Add error handling
+# Move to 1.2 and make commands more like linux
 # Add move file (mv)
-# Add view local files
+# Add view local files (Use "swap" to switch between "REMOTE" & "LOCAL")
 # Add ability to change file permissions?
 
 user = 'qualico@qualicotrading.com'
@@ -35,14 +40,26 @@ def disconnect():
 		ftp.quit()
 	else:
 		menu()
-		
+
 def getfile():
-	filename = input('Filename: ')
-	localfile = open(filename, 'wb')
-	ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
-	localfile.close()
-	menu()
-	
+	try:
+		filename = input('Filename: ')
+		localfile = open(filename, 'wb')
+		ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
+		localfile.close()
+	except ftplib.all_errors as err:
+		print('')
+		print(err) # print actual error message
+		localfile.close()
+		if os.path.exists(filename):
+			os.unlink(filename)
+		menu()
+	else:
+		print('')
+		print('Download of {} sucessful!'.format(filename))
+		print('')
+		menu()
+
 def getall():
 	file_list = []
 	ftp.retrlines('NLST', file_list.append) # append list of files in directory using callback
@@ -112,6 +129,7 @@ def menu():
 	elif command == 'rm':
 		remove()
 	else:
+		print("")
 		print("***Unknown command***")
 		print("")
 		menu()
