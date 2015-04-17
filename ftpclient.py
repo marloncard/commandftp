@@ -6,21 +6,22 @@ import os
 # Move login_info to credentials file and import
 # Add confirmations for all actions
 # Add error handling
-# Move to 1.2 and make commands more like linux
+# Move to 1.2 and make command entry more like linux
 # Add move file (mv)
-# Add view local files (Use "swap" to switch between "REMOTE" & "LOCAL")
+# Add local files functions(Use "swap" to switch between "REMOTE" & "LOCAL")
+	# - 'ls local' to view local files
+	# - 'cd local' to change local dir
 # Add ability to change file permissions?
 
 
 url = input('Enter FTP url: ')
-
 
 def connect(url):
 	try:
 		fftp = FTP(url)		#connect to the host, default port
 	except ftplib.all_errors as err:
 		print('Could not connect to {}'.format(url)) # message if unable to connect
-		print(err) # print actual error message
+		print(err) # Print python generated error messages
 		quit()
 	else:
 		print('Connected to {}'.format(url))
@@ -48,9 +49,9 @@ def getfile():
 		localfile.close()
 	except ftplib.all_errors as err:
 		print('')
-		print(err) # print actual error message
+		print(err) # Print python generated error messages
 		localfile.close()
-		if os.path.exists(filename):
+		if os.path.exists(filename):	# Delete empty file created locally
 			os.unlink(filename)
 		menu()
 	else:
@@ -58,24 +59,25 @@ def getfile():
 		print('Download of {} sucessful!'.format(filename))
 		print('')
 		menu()
-
+# ------------------------------ #
 def getall():
 	file_list = []
 	ftp.retrlines('NLST', file_list.append) # append list of files in directory using callback
 	file_list.remove('.') # remove current directory '.'
 	file_list.remove('..') # remove previous directory '..'
 	print('')
-	print('*' * 10)
+	print('=' * 10)
 	print('<Retrieving ' + str(len(file_list)) + ' files>')
 	print('')
-	print('*' * 10)
+	print('=' * 10)
 	for filename in file_list:
 		localfile = open(filename, 'wb')
 		ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
 		localfile.close()
 		print('<' + filename + '> download successful!')	
 	menu()
-		
+# ------------------------------ #
+
 def putfile():
 	filename = input('Filename: ')
 	ftp.storbinary('STOR ' + filename, open(filename, 'rb'))
@@ -101,7 +103,7 @@ def remove():
 	
 def menu():
 	print('')
-	print('*' * 10)
+	print('=' * 10)
 	print('[q] to quit')
 	print('[ls] to list dir contents')
 	print('[pwd] to show working dir')
