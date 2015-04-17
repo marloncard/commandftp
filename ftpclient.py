@@ -3,15 +3,14 @@ from ftplib import FTP
 import ftplib
 import os
 ## TODO:
-# Move login_info to credentials file and import
 # Add confirmations for all actions
 # Add error handling
-# Move to 1.2 and make command entry more like linux
 # Add move file (mv)
 # Add local files functions(Use "swap" to switch between "REMOTE" & "LOCAL")
 	# - 'ls local' to view local files
 	# - 'cd local' to change local dir
 # Add ability to change file permissions?
+# Move to 2.0 and make command entry more like linux
 
 
 url = input('Enter FTP url: ')
@@ -59,7 +58,7 @@ def getfile():
 		print('Download of {} sucessful!'.format(filename))
 		print('')
 		menu()
-# ------------------------------ #
+
 def getall():
 	file_list = []
 	ftp.retrlines('NLST', file_list.append) # append list of files in directory using callback
@@ -71,19 +70,29 @@ def getall():
 	print('')
 	print('=' * 10)
 	for filename in file_list:
-		localfile = open(filename, 'wb')
-		ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
-		localfile.close()
-		print('<' + filename + '> download successful!')	
+		try:
+			localfile = open(filename, 'wb')
+			ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
+			localfile.close()
+			print('<' + filename + '> download successful!')
+		except ftplib.all_errors as err:
+			print('')
+			print(err) # Print python generated error messages
+			localfile.close()
+			if os.path.exists(filename):	# Delete empty file created locally
+				os.unlink(filename)
 	menu()
-# ------------------------------ #
-
+# ----------------#
+# add filehandle variable????????????????
 def putfile():
-	filename = input('Filename: ')
-	ftp.storbinary('STOR ' + filename, open(filename, 'rb'))
+	try:
+		filename = input('Filename: ')
+		ftp.storbinary('STOR ' + filename, open(filename, 'rb'))
+	except ftplib.all_errors as err:
+		print('')
+		print(err) # Print python generated error messages
 	menu()
-	
-	
+# ----------------#
 def pwd(): #Sort of works...
 	print('')
 	print(ftp.pwd())
@@ -113,7 +122,7 @@ def menu():
 	print('[rm] to delete')
 	
 	command = input('What is your command: ').lower().strip()
-	if command == 'q':
+	if command == 'q' or command =='quit' or command =='exit':
 		disconnect()
 	elif command == 'ls':
 		viewdir()

@@ -1,4 +1,4 @@
-# ENTER CREDENTIALS OR LET PROGRAM PROMPT YOU FOR INFO ON EVERY LOGIN
+# Enter credentials or let program prompt you for info on every login.
 
 user = "qualico@qualicotrading.com" #Username goes here
 passw = "987!2Hpu8$9"	#Password goes here
