@@ -3,6 +3,7 @@ from ftplib import FTP
 import ftplib
 import os
 ## TODO:
+# Remove default menu; User types "help" for command list
 # Add confirmations for all actions
 # Add error handling
 # Add move file (mv)
