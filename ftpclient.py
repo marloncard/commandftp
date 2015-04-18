@@ -11,6 +11,7 @@ import os
 	# - 'cd local' to change local dir
 # Add ability to change file permissions?
 # Move to 2.0 and make command entry more like linux
+# Add ability to put and get directories and contents
 
 
 url = input('Enter FTP url: ')
@@ -82,8 +83,7 @@ def getall():
 			if os.path.exists(filename):	# Delete empty file created locally
 				os.unlink(filename)
 	menu()
-# ----------------#
-# add filehandle variable????????????????
+
 def putfile():
 	try:
 		filename = input('Filename: ')
@@ -91,8 +91,12 @@ def putfile():
 	except ftplib.all_errors as err:
 		print('')
 		print(err) # Print python generated error messages
+	else:
+		print('')
+		print('Upload of {} sucessful!'.format(filename))
+		print('')
 	menu()
-# ----------------#
+
 def pwd(): #Sort of works...
 	print('')
 	print(ftp.pwd())
