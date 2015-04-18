@@ -13,5 +13,5 @@ There are a lot of things I can add to make this more useful and this list will 
 
 1. Need to add a way to change local working directory.
 2. Ability to "Put" a directory and all it's contents.
-3. Commands need to be more 'linux like' in that the entire command is one line vs two line prompts. (Enter command>rm ; Enter file name> example.txt)
+3. Commands need to be more 'linux like' in that the entire command is one line vs two line prompts. (Enter command> rm example.txt) vs (Enter command>rm ; Enter file name> example.txt)
 4. More to come...
