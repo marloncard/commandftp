@@ -11,7 +11,7 @@ import os
 	# - 'ls local' to view local files
 	# - 'cd local' to change local dir
 # Add ability to change file permissions?
-# Move to 2.0 and make command entry more like linux
+# Move to 2.0 and streamline command entry (single line)
 # Add ability to put and get directories and contents
 
 
@@ -98,7 +98,7 @@ def putfile():
 		print('')
 	menu()
 
-def pwd(): #Sort of works...
+def pwd(): # Show current working directory
 	print('')
 	print(ftp.pwd())
 	menu()
@@ -106,13 +106,26 @@ def pwd(): #Sort of works...
 def viewdir():
 	ftp.retrlines('LIST') 	# List directory contents
 	menu()
-	
+
 def cwd():
-	ftp.cwd(input('path: ')) # Change current directory.
+	try:
+		ftp.cwd(input('path: ')) # Change current directory.
+	except ftplib.all_errors as err:
+		print('')
+		print(err) # Print python generated error messages
 	menu()
 	
 def remove():
-	ftp.delete(input('Filename: ')) # Delete a file.
+	rm_file = input('Filename: ')
+	try:
+		ftp.delete(rm_file) # Delete a file.
+	except ftplib.all_errors as err:
+		print('')
+		print(err) # Print python generated error messages
+	else:
+		print('')
+		print('{} has been deleted.'.format(rm_file))
+		print('')
 	menu()
 	
 def menu():
@@ -145,7 +158,7 @@ def menu():
 		remove()
 	else:
 		print("")
-		print("***Unknown command***")
+		print("=====Unknown command=====")
 		print("")
 		menu()
 
