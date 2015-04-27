@@ -5,7 +5,6 @@ import os
 ## TODO:
 # Remove default menu; User types "help" for command list
 # Add confirmations for all actions
-# Add error handling
 # Add move file (mv)
 # Add local files functions(Use "swap" to switch between "REMOTE" & "LOCAL")
 	# - 'ls local' to view local files
@@ -29,6 +28,8 @@ def connect(url):
 		print('Welcome message is:')
 		welcome = fftp.getwelcome()
 		print(welcome)
+		print('')
+		print('type [help] to view a list of commands')
 	fftp.login(credentials.user, credentials.passw) # enters login info
 	fftp.dir				# view current directory listing
 	return fftp
@@ -40,7 +41,7 @@ def disconnect():
 	if really == 'y' or really == 'yes':
 		ftp.quit()
 	else:
-		menu()
+		command_line()
 
 def getfile():
 	try:
@@ -54,12 +55,12 @@ def getfile():
 		localfile.close()
 		if os.path.exists(filename):	# Delete empty file created locally
 			os.unlink(filename)
-		menu()
+		command_line()
 	else:
 		print('')
 		print('Download of {} sucessful!'.format(filename))
 		print('')
-		menu()
+		command_line()
 
 def getall():
 	file_list = []
@@ -83,7 +84,7 @@ def getall():
 			localfile.close()
 			if os.path.exists(filename):	# Delete empty file created locally
 				os.unlink(filename)
-	menu()
+	command_line()
 
 def putfile():
 	try:
@@ -96,16 +97,16 @@ def putfile():
 		print('')
 		print('Upload of {} sucessful!'.format(filename))
 		print('')
-	menu()
+	command_line()
 
 def pwd(): # Show current working directory
 	print('')
 	print(ftp.pwd())
-	menu()
+	command_line()
 	
 def viewdir():
 	ftp.retrlines('LIST') 	# List directory contents
-	menu()
+	command_line()
 
 def cwd():
 	try:
@@ -113,7 +114,7 @@ def cwd():
 	except ftplib.all_errors as err:
 		print('')
 		print(err) # Print python generated error messages
-	menu()
+	command_line()
 	
 def remove():
 	rm_file = input('Filename: ')
@@ -126,11 +127,12 @@ def remove():
 		print('')
 		print('{} has been deleted.'.format(rm_file))
 		print('')
-	menu()
+	command_line()
 	
-def menu():
+def help():
 	print('')
 	print('=' * 10)
+	print('[help] to view this list of commands')
 	print('[q] to quit')
 	print('[ls] to list dir contents')
 	print('[pwd] to show working dir')
@@ -138,9 +140,15 @@ def menu():
 	print('[get] to download file, [getall] to download directory')
 	print('[put] to send file')
 	print('[rm] to delete')
-	
-	command = input('What is your command: ').lower().strip()
-	if command == 'q' or command =='quit' or command =='exit':
+	print('=' * 10)
+	print('')
+	command_line()
+
+def command_line():
+	command = input('commandftp: ').lower().strip()
+	if command == 'h' or command =='help':
+		help()
+	elif command == 'q' or command =='quit' or command =='exit':
 		disconnect()
 	elif command == 'ls':
 		viewdir()
@@ -158,8 +166,8 @@ def menu():
 		remove()
 	else:
 		print("")
-		print("=====Unknown command=====")
+		print("=====Command Unknown=====")
 		print("")
-		menu()
+		command_line()
 
-menu()
+command_line()
