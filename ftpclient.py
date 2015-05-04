@@ -3,8 +3,7 @@ from ftplib import FTP
 import ftplib
 import os
 ## TODO:
-# Remove default menu; User types "help" for command list
-# Add confirmations for all actions
+# rename ftpclient to commandftp; cleanup spacing
 # Add move file (mv)
 # Add local files functions(Use "swap" to switch between "REMOTE" & "LOCAL")
 	# - 'ls local' to view local files
@@ -102,10 +101,12 @@ def putfile():
 def pwd(): # Show current working directory
 	print('')
 	print(ftp.pwd())
+	print('')
 	command_line()
 	
 def viewdir():
 	ftp.retrlines('LIST') 	# List directory contents
+	print('')
 	command_line()
 
 def cwd():
@@ -114,6 +115,7 @@ def cwd():
 	except ftplib.all_errors as err:
 		print('')
 		print(err) # Print python generated error messages
+	print('')
 	command_line()
 	
 def remove():
@@ -169,5 +171,6 @@ def command_line():
 		print("=====Command Unknown=====")
 		print("")
 		command_line()
+
 
 command_line()
