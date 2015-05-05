@@ -3,13 +3,11 @@ from ftplib import FTP
 import ftplib
 import os
 ## TODO:
-# rename ftpclient to commandftp; cleanup spacing
 # Add move file (mv)
 # Add local files functions(Use "swap" to switch between "REMOTE" & "LOCAL")
-	# - 'ls local' to view local files
-	# - 'cd local' to change local dir
+	# - 'ls local' to view local files??
+	# - 'cd local' to change local dir??
 # Add ability to change file permissions?
-# Move to 2.0 and streamline command entry (single line)
 # Add ability to put and get directories and contents
 
 
@@ -42,9 +40,9 @@ def disconnect():
 	else:
 		command_line()
 
-def getfile():
+def getfile(path):
 	try:
-		filename = input('Filename: ')
+		filename = path
 		localfile = open(filename, 'wb')
 		ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
 		localfile.close()
@@ -85,9 +83,9 @@ def getall():
 				os.unlink(filename)
 	command_line()
 
-def putfile():
+def putfile(path):
 	try:
-		filename = input('Filename: ')
+		filename = path
 		ftp.storbinary('STOR ' + filename, open(filename, 'rb'))
 	except ftplib.all_errors as err:
 		print('')
@@ -109,17 +107,17 @@ def viewdir():
 	print('')
 	command_line()
 
-def cwd():
+def cwd(path):
 	try:
-		ftp.cwd(input('path: ')) # Change current directory.
+		ftp.cwd(path) # Change current directory.
 	except ftplib.all_errors as err:
 		print('')
 		print(err) # Print python generated error messages
 	print('')
 	command_line()
 	
-def remove():
-	rm_file = input('Filename: ')
+def remove(path):
+	rm_file = path
 	try:
 		ftp.delete(rm_file) # Delete a file.
 	except ftplib.all_errors as err:
@@ -147,7 +145,8 @@ def help():
 	command_line()
 
 def command_line():
-	command = input('commandftp: ').lower().strip()
+	current_dir = ftp.pwd()
+	command = input('root{}:> '.format(current_dir))
 	if command == 'h' or command =='help':
 		help()
 	elif command == 'q' or command =='quit' or command =='exit':
@@ -156,16 +155,20 @@ def command_line():
 		viewdir()
 	elif command == 'pwd':
 		pwd()
-	elif command == 'cd':
-		cwd()
-	elif command == 'get':
-		getfile()
+	elif command[0:3] == 'cd ':
+		path = command[3:]
+		cwd(path)
+	elif command[0:4] == 'get ':
+		path = command[4:]
+		getfile(path)
 	elif command == 'getall':
 		getall()
-	elif command == 'put':
-		putfile()
-	elif command == 'rm':
-		remove()
+	elif command[0:4] == 'put ':
+		path = command[4:]
+		putfile(path)
+	elif command[0:3] == 'rm ':
+		path = command[3:]
+		remove(path)
 	else:
 		print("")
 		print("=====Command Unknown=====")
