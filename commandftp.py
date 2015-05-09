@@ -109,12 +109,16 @@ def viewdir():
 	command_line()
 
 def viewdir_local(path):
-	local_dir = os.listdir(path)
-	print('')
-	print(path)
-	print('')
-	for f in local_dir:
-		print(f)
+	try:
+		local_dir = os.listdir(path)
+		print('')
+		print(path)
+		print('')
+		for f in local_dir:
+			print(f)
+	except FileNotFoundError as e:
+		print('')
+		print(e.strerror) # Print system generated error message
 	print('')
 	command_line()
 
@@ -130,9 +134,9 @@ def cwd(path):
 def cwd_local(path):
 	try:
 		os.chdir(path) # Change current local directory.
-	except OSerror: #******MUST TEST ERROR******** (the exception instance will contain a third attribute, filename, which is the file name passed to the function.)
+	except FileNotFoundError as e:
 		print('')
-		print('Invalid path') # Print error message
+		print(e.strerror) # Print system generated error message
 	print('')
 	command_line()
 	
