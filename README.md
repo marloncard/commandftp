@@ -7,11 +7,13 @@ This project is primarily practice but I plan on using it myself when in need of
 2. At the **root:>** prompt enter simple linux like commands: 
 
   - **ls** to list directory contents
+  - **ls -l** <*path*> to list local directory contents
   - **cd** <*path*> to change working directory
-  - **rm** <*path*> to delete file
-  - **get** <*path*> to download a file
+  - **cd -l** <*path*> to change local working directory
+  - **rm** <*file*> to delete file
+  - **get** <*file*> to download a file
   - **getall** to download all files in current working directory
-  - **put** <*path*> to upload a file
+  - **put** <*file*> to upload a file
   - **q** or **quit** or **exit** to disconnect
   - **help** to show a list of commands
 
@@ -19,8 +21,7 @@ This project is primarily practice but I plan on using it myself when in need of
 
 ##Upcoming Additions
 
-1. Change local working directory.
-2. "Put" a local directory and all it's contents.
-3. Create local directory
-4. Create remote directory
-5. View local directory
+1. "Put" a local directory and all it's contents.
+2. Create local directory
+3. Create remote directory
+
