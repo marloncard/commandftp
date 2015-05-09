@@ -1,5 +1,5 @@
 # commandftp
-A simple command line FTP client in python using ftplib.
+A simple command line FTP client in python using ftplib (python 3.0).
 
 This project is primarily practice but I plan on using it myself when in need of a quick ftp client. 
 
