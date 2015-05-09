@@ -11,6 +11,7 @@ import os
 # Add ability to put and get directories and contents
 
 
+
 url = input('Enter FTP url: ')
 
 def connect(url):
@@ -107,12 +108,31 @@ def viewdir():
 	print('')
 	command_line()
 
+def viewdir_local(path):
+	local_dir = os.listdir(path)
+	print('')
+	print(path)
+	print('')
+	for f in local_dir:
+		print(f)
+	print('')
+	command_line()
+
 def cwd(path):
 	try:
 		ftp.cwd(path) # Change current directory.
 	except ftplib.all_errors as err:
 		print('')
 		print(err) # Print python generated error messages
+	print('')
+	command_line()
+	
+def cwd_local(path):
+	try:
+		os.chdir(path) # Change current local directory.
+	except OSerror: #******MUST TEST ERROR******** (the exception instance will contain a third attribute, filename, which is the file name passed to the function.)
+		print('')
+		print('Invalid path') # Print error message
 	print('')
 	command_line()
 	
@@ -135,8 +155,10 @@ def help():
 	print('[help] to view this list of commands')
 	print('[q] to quit')
 	print('[ls] to list dir contents')
+	print('[ls -l] to list local dir contents')
 	print('[pwd] to show working dir')
 	print('[cd] to change dir')
+	print('[cd -l] to change local dir')
 	print('[get] to download file, [getall] to download directory')
 	print('[put] to send file')
 	print('[rm] to delete')
@@ -153,11 +175,25 @@ def command_line():
 		disconnect()
 	elif command == 'ls':
 		viewdir()
-	elif command == 'pwd':
-		pwd()
+	elif command[0:5] == 'ls -l':
+		if command[6:] == '':
+			path = '.'
+			viewdir_local(path)
+		else:
+			path = command[6:]
+			viewdir_local(path)
+	elif command[0:5] == 'cd -l':
+		if command[6:] == '':
+			path = '.'
+			cwd_local(path)
+		else:
+			path = command[6:]
+			cwd_local(path)
 	elif command[0:3] == 'cd ':
 		path = command[3:]
 		cwd(path)
+	elif command == 'pwd':
+		pwd()
 	elif command[0:4] == 'get ':
 		path = command[4:]
 		getfile(path)
