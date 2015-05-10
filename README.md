@@ -10,6 +10,8 @@ This project is primarily practice but I plan on using it myself when in need of
   - **ls -l** <*path*> to list local directory contents
   - **cd** <*path*> to change working directory
   - **cd -l** <*path*> to change local working directory
+  - **pwd** Show current working directory
+  - **pwd -l** Show current working directory
   - **rm** <*file*> to delete file
   - **get** <*file*> to download a file
   - **getall** to download all files in current working directory
@@ -21,7 +23,8 @@ This project is primarily practice but I plan on using it myself when in need of
 
 ##Upcoming Additions
 
-1. "Put" a local directory and all it's contents.
-2. Create local directory
-3. Create remote directory
+1. Create function to put all files
+2. "Put" a local directory and all it's contents.
+3. Create local directory
+4. Create remote directory
 

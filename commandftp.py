@@ -103,6 +103,12 @@ def pwd(): # Show current working directory
 	print('')
 	command_line()
 	
+def pwd_local(): # Show local current working directory
+	print('')
+	print(os.getcwd())
+	print('')
+	command_line()
+	
 def viewdir():
 	ftp.retrlines('LIST') 	# List directory contents
 	print('')
@@ -161,6 +167,7 @@ def help():
 	print('[ls] to list dir contents')
 	print('[ls -l] to list local dir contents')
 	print('[pwd] to show working dir')
+	print('[pwd -l] to show local working dir')
 	print('[cd] to change dir')
 	print('[cd -l] to change local dir')
 	print('[get] to download file, [getall] to download directory')
@@ -198,6 +205,8 @@ def command_line():
 		cwd(path)
 	elif command == 'pwd':
 		pwd()
+	elif command == 'pwd -l':
+		pwd_local()
 	elif command[0:4] == 'get ':
 		path = command[4:]
 		getfile(path)
