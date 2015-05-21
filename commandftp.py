@@ -2,14 +2,6 @@ import credentials
 from ftplib import FTP
 import ftplib
 import os
-## TODO:
-# Add move file (mv)
-# Add local files functions(Use "swap" to switch between "REMOTE" & "LOCAL")
-	# - 'ls local' to view local files??
-	# - 'cd local' to change local dir??
-# Add ability to change file permissions?
-# Add ability to put and get directories and contents
-
 
 
 url = input('Enter FTP url: ')
@@ -96,7 +88,27 @@ def putfile(path):
 		print('Upload of {} sucessful!'.format(filename))
 		print('')
 	command_line()
-
+# --------------------------------------------------------------------
+def putall():
+	fcount = len(os.listdir('.'))
+	print('')
+	print('=' * 10)
+	print('<Uploading ' + str(fcount) + ' files>')
+	print('')
+	print('=' * 10)
+	for filen in os.listdir('.'):
+		try:
+			filename = filen
+			ftp.storbinary('STOR ' + filen, open(filen, 'rb'))
+		except ftplib.all_errors as err:
+			print('')
+			print(err) # Print python generated error messages
+		else:
+			print('')
+			print('Upload of {} sucessful!'.format(filen))
+			print('')
+	command_line()
+# --------------------------------------------------------------------
 def pwd(): # Show current working directory
 	print('')
 	print(ftp.pwd())
@@ -171,7 +183,7 @@ def help():
 	print('[cd] to change dir')
 	print('[cd -l] to change local dir')
 	print('[get] to download file, [getall] to download directory')
-	print('[put] to send file')
+	print('[put] to send file, [putall] to put all files in current local directory')
 	print('[rm] to delete')
 	print('=' * 10)
 	print('')
@@ -215,6 +227,8 @@ def command_line():
 	elif command[0:4] == 'put ':
 		path = command[4:]
 		putfile(path)
+	elif command == 'putall':
+		putall()
 	elif command[0:3] == 'rm ':
 		path = command[3:]
 		remove(path)

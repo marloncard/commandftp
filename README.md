@@ -16,6 +16,7 @@ This project is primarily practice but I plan on using it myself when in need of
   - **get** <*file*> to download a file
   - **getall** to download all files in current working directory
   - **put** <*file*> to upload a file
+  - **putall** to upload all files in current working directory
   - **q** or **quit** or **exit** to disconnect
   - **help** to show a list of commands
 
@@ -23,8 +24,7 @@ This project is primarily practice but I plan on using it myself when in need of
 
 ##Upcoming Additions
 
-1. Create function to put all files
-2. "Put" a local directory and all it's contents.
-3. Create local directory
-4. Create remote directory
+1. "Put" a local directory and all it's contents.
+2. Create local directory
+3. Create remote directory
 
