@@ -11,7 +11,7 @@ This project is primarily practice but I plan on using it myself when in need of
   - **cd** <*path*> to change working directory
   - **cd -l** <*path*> to change local working directory
   - **pwd** Show current working directory
-  - **pwd -l** Show current working directory
+  - **pwd -l** Show current local working directory
   - **rm** <*file*> to delete file
   - **get** <*file*> to download a file
   - **getall** to download all files in current working directory
@@ -27,4 +27,4 @@ This project is primarily practice but I plan on using it myself when in need of
 1. "Put" a local directory and all it's contents.
 2. Create local directory
 3. Create remote directory
-
+4. Save login info and retrieve from command line (instead of in code)
